@@ -2,12 +2,9 @@
 Aplicación para guardar contactos y mostrarlos en consola
 
 '''
-import sys
-sys.path.append('./Clases')
-from contactbook import *
 
-#from Clases.contactbook import ContactBook
-#from Clases.contactbook.py import Contact
+import csv
+from Clases.contactbook import ContactBook
 def run():
     contac_book = ContactBook()
     with open('contacts.csv','r') as f:
