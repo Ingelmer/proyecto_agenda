@@ -15,16 +15,20 @@ class ContactBook:
         contact = Contact(name,phone,email)
         self._contacts.append(contact)
         self._save()
-        #print('name: {}, phone: {}, email {}'.format(name,phone,email))
+        
     def show_all(self):
-        for contact in self._contacts:
-            self._print_contact(contact)
+        if self._contacts:
+            for contact in self._contacts:
+                self._print_contact(contact)
+        else:
+            self._not_found('Agenda vacía')
+
     def _print_contact(self,contact):
-        print('--- * --- * --- *---*---*---*---*---*')
+        print('--- * --- * --- * --- * --- * --- * --- * --- *')
         print('Nombre: {}'.format(contact.name))
         print('Phone: {}'.format(contact.phone))
         print('Email: {}'.format(contact.email))
-        print('--- * --- * --- *---*---*---*---*---*')
+        print('--- * --- * --- * --- * --- * --- * --- * --- *')
 
     def delete(self,name):
         for idx, contact in enumerate(self._contacts):
@@ -39,28 +43,42 @@ class ContactBook:
                 break
         else:
             self._not_found('Archivo no encontrado')
+
     def update(self,name):
-        idx = self._privated_search(name)
-        if idx != -1:
-            self._print_contact(self._contacts[idx])
-            feature = str(input('Escriba la caracteristica a actualizar: '))
-            if feature.lower() == 'Nombre'.lower():
-                nombre = str(input('Escriba el nuevo nombre: '))
-                self._contacts[idx].name = nombre
-                self._save()
-                #contact.name = nombre
-            elif feature == 'Phone'.lower():
-                phone = str(input('Ingrese el nuevo telefono'))
-                self._contacts[idx].phone = phone
-                self._save()
-            elif feature == 'Email'.lower():
-                email = str(input('Ingrese el nuevo email'))
-                self._contacts[idx].email = email
-                self._save()
+
+        while True:
+            idx = self._privated_search(name)
+            if idx != -1:
+                self._print_contact(self._contacts[idx])
+                feature = str(input('''Que característica desea actualizar?
+                [n]ombre
+                [t]elefono
+                [e]mail
+                
+                [s]alir
+                '''))
+
+                if feature.lower() == 'n':
+                    nombre = str(input('Escriba el nuevo nombre: '))
+                    self._contacts[idx].name = nombre
+                    self._save()
+                    name = nombre
+                elif feature == 't':
+                    phone = str(input('Ingrese el nuevo telefono: '))
+                    self._contacts[idx].phone = phone
+                    self._save()
+                elif feature == 'e':
+                    email = str(input('Ingrese el nuevo email: '))
+                    self._contacts[idx].email = email
+                    self._save()
+                elif feature == 's':
+                    break
+                else:
+                    self._not_found('Opcion no encontrada, seleccione otra')
             else:
-                self._not_found('Caracteristica no encontrada')
-        else:
-            self._not_found('Contacto no encontrado')
+                self._not_found('Contacto no encontrado')
+                break
+
     def _privated_search(self,name):
         for idx, contact in enumerate(self._contacts):
             if contact.name.lower() == name.lower():

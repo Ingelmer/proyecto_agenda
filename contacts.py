@@ -27,7 +27,7 @@ def run():
         '''))
         if command == 'a':
             name = str(input('Escribe el nombre de contacto'))
-            phone = str(input('Escribe el tel de contacto'))
+            phone = str(input('Escribe el teléfono de contacto'))
             mail = str(input('Escribe el email de contacto'))
             contac_book.add(name,phone,mail)
         elif command == 'ac':
